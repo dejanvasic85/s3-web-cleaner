@@ -15,9 +15,19 @@ Also set:
 
 - AWS_BUCKET
 
-
 Example:
 
 ```
 AWS_REGION=ap-southeast-2 AWS_BUCKET=my-super-web-app node index.js
 ```
+
+### Running with Docker
+
+This has already been containerised and pushed to : dejanvasic/s3-web-cleaner.
+So you can run as follows:
+
+```
+docker run --rm --env-file .env s3-web-cleaner:1.0.0 
+```
+
+Where the --env-file should read in the AWS config.

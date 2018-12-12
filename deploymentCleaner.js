@@ -11,12 +11,12 @@ async function getDeploymentsToClean(bucketName) {
   const listResponse = await s3.listObjects(params).promise();
   const directories = listResponse.CommonPrefixes.map(p => p.Prefix.replace('/', ''));
   const lastDeployment = getLastDeployment(directories);
-
+  
   const deploymentsToClean = directories
     .filter(d => d.startsWith('20') && !d.startsWith(lastDeployment));
 
-  if (deploymentsToClean.length === 0) {
-    return;
+  if (!deploymentsToClean) {
+    return [];
   }
 
   return deploymentsToClean;

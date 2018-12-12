@@ -1,7 +1,7 @@
 const AWS = require('aws-sdk');
-AWS.config.update({ region: process.env.AWS_REGION || 'ap-southeast-2' });
+const config = require('./config');
+AWS.config.update({ region: config.awsRegion });
 
-const bucket = process.env.AWS_BUCKET;
 const {
   cleanDeployment,
   deleteDeployment,
@@ -9,13 +9,13 @@ const {
 } = require('./deploymentCleaner');
 
 async function start() {
-  const deployments = await getDeploymentsToClean(bucket);
+  const deployments = await getDeploymentsToClean(config.bucket);
   console.log('Deployments to clean', deployments);
 
   if (deployments.length > 0) {
     deployments.forEach(async (deployment) => {
-      await cleanDeployment(bucket, deployment);
-      await deleteDeployment(bucket, deployment);
+      await cleanDeployment(config.bucket, deployment);
+      await deleteDeployment(config.bucket, deployment);
     })
   }
 }

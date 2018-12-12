@@ -2,39 +2,6 @@ const AWS = require('aws-sdk');
 const moment = require('moment');
 const s3 = new AWS.S3();
 
-async function cleanDeployment(bucket, dir) {
-  const listParams = {
-    Bucket: bucket,
-    Prefix: dir
-  };
-
-  const listedObjects = await s3.listObjectsV2(listParams).promise();
-
-  if (listedObjects.Contents.length === 0) {
-    return;
-  }
-
-  const deleteParams = {
-    Bucket: bucket,
-    Delete: { Objects: [] }
-  };
-
-  listedObjects.Contents.forEach(({ Key }) => {
-    deleteParams.Delete.Objects.push({ Key });
-  });
-
-  // Webpack plugin also retains the index files with date stamps, so add this manually
-  const indexHtmlKey = `index-${dir}.html`;
-  deleteParams.Delete.Objects.push({Key: indexHtmlKey});
-
-  console.log(`Removing ${deleteParams.Delete.Objects.length} items from ${dir}`);
-  await s3.deleteObjects(deleteParams).promise();
-
-  if (listedObjects.Contents === 1000) {
-    await cleanDeployment(bucket, dir);
-  }
-}
-
 async function getDeploymentsToClean(bucketName) {
   var params = {
     Bucket: bucketName,
@@ -75,6 +42,39 @@ const getLastDeployment = (directories) => {
     });
 
   return latest;
+}
+
+async function cleanDeployment(bucket, dir) {
+  const listParams = {
+    Bucket: bucket,
+    Prefix: dir
+  };
+
+  const listedObjects = await s3.listObjectsV2(listParams).promise();
+
+  if (listedObjects.Contents.length === 0) {
+    return;
+  }
+
+  const deleteParams = {
+    Bucket: bucket,
+    Delete: { Objects: [] }
+  };
+
+  listedObjects.Contents.forEach(({ Key }) => {
+    deleteParams.Delete.Objects.push({ Key });
+  });
+
+  // Webpack plugin also retains the index files with date stamps, so add this manually
+  const indexHtmlKey = `index-${dir}.html`;
+  deleteParams.Delete.Objects.push({Key: indexHtmlKey});
+
+  console.log(`Removing ${deleteParams.Delete.Objects.length} items from ${dir}`);
+  await s3.deleteObjects(deleteParams).promise();
+
+  if (listedObjects.Contents === 1000) {
+    await cleanDeployment(bucket, dir);
+  }
 }
 
 async function deleteDeployment(bucket, key) {

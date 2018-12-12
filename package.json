@@ -1,17 +1,16 @@
 {
   "name": "s3-web-cleaner",
   "version": "1.0.0",
-  "description": "",
+  "description": "Does some magic cleanup within the S3 bucket after s3-plugin-webpack is finished with deployment",
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
-  "keywords": [],
-  "author": "",
-  "license": "ISC",
+  "keywords": ["S3", "AWS", "s3-plugin-webpack"],
+  "author": "Dejan Vasic",
+  "license": "MIT",
   "dependencies": {
     "aws-sdk": "^2.374.0",
-    "moment": "^2.22.2",
-    "nodemon": "^1.18.8"
+    "moment": "^2.22.2"
   }
 }

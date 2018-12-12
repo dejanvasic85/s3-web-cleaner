@@ -6,7 +6,7 @@ const {
   cleanDeployment, 
   deleteDeployment, 
   getDeploymentsToClean 
-} = require('./deploymentManager');
+} = require('./deploymentCleaner');
 
 async function start() {
   const deployments = await getDeploymentsToClean(bucket);

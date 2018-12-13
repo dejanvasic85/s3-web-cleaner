@@ -1,6 +1,12 @@
 const AWS = require('aws-sdk');
 const config = require('./config');
-AWS.config.update({ region: config.awsRegion });
+AWS.config.update({ 
+  region: config.awsRegion,
+  credentials: {
+    accessKeyId: config.awsAccessKeyId,
+    secretAccessKey: config.awsSecretAccessKey
+  }
+});
 
 const {
   cleanDeployment,

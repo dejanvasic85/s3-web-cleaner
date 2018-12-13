@@ -1,7 +1,7 @@
 S3 Web Cleaner
 ===
 
-Are you using [s3-plugin-webpack](https://github.com/MikaAK/s3-plugin-webpack) 
+Are you using create-react-app with [s3-plugin-webpack](https://github.com/MikaAK/s3-plugin-webpack) 
 to deploy your webpack project? After number of deployments it tends to leave a lot of 
 the previous files and directories behind. Running `node index.js` in this app 
 should help clean it up.
